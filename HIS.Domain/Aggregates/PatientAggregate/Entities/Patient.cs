@@ -6,6 +6,7 @@ using HIS.Domain.Aggregates.PatientAggregate.ValueObject;
 using HIS.Domain.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -25,8 +26,8 @@ namespace HIS.Domain.Aggregates.PatientAggregate.Entities
 
         public DateOnly DateOfBirth { get; private set; }
         public int Gender { get; private set; }
-      
-        [JsonIgnore]
+
+        //[NotMapped]
         public PatientStatus Status { get; private set; }
         public bool IsActive => Status == PatientStatus.Active; // true // false
         public InsurancePolicy? InsurancePolicy { get; private set; }
@@ -38,11 +39,11 @@ namespace HIS.Domain.Aggregates.PatientAggregate.Entities
         public IReadOnlyCollection<MedicalRecord> MedicalRecords => _medicalRecords;
         public IReadOnlyCollection<DocumentRecord> Documents => _documents;
 
-
+        
         private Patient() { }
 
         public static Patient Create(PersonName fullName,NationalIdentity nationalIdentity,PhoneNumber phoneNumber,
-                    Address address,DateOnly dateOfBirth,Gender gender, InsurancePolicy? insurancePolicy = null)
+                    Address address,DateOnly dateOfBirth,int gender, InsurancePolicy? insurancePolicy = null)
         {
             ValidateAge(dateOfBirth);
 
@@ -66,7 +67,7 @@ namespace HIS.Domain.Aggregates.PatientAggregate.Entities
             return patient;
         }
 
-        public void UpdatePersonalInfo(PersonName fullName,PhoneNumber phoneNumber,Address address,Gender gender)
+        public void UpdatePersonalInfo(PersonName fullName,PhoneNumber phoneNumber,Address address,int gender)
         {
             FullName = fullName;
             PhoneNumber = phoneNumber;

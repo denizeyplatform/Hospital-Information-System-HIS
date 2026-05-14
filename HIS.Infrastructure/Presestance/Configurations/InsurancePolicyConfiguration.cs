@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace HIS.Infrastructure.Presestance.Configurations
 {
-    public sealed class InsurancePolicyConfiguration
-    : IEntityTypeConfiguration<InsurancePolicy>
+    public sealed class InsurancePolicyConfiguration : IEntityTypeConfiguration<InsurancePolicy>
     {
         public void Configure(EntityTypeBuilder<InsurancePolicy> builder)
         {

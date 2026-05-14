@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 
 namespace HIS.Infrastructure.Presestance.Configurations
 {
-    public sealed class PatientConfiguration
-    : IEntityTypeConfiguration<Patient>
+    public sealed class PatientConfiguration : IEntityTypeConfiguration<Patient>
     {
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
@@ -26,12 +25,12 @@ namespace HIS.Infrastructure.Presestance.Configurations
                 .IsRequired();
 
             builder.Property(x => x.Gender)
-                .HasConversion<string>()
+                .HasConversion<int>()
                 .HasMaxLength(20)
                 .IsRequired();
 
             builder.Property(x => x.Status)
-                .HasConversion<string>()
+                .HasConversion<int>()
                 .HasMaxLength(20)
                 .IsRequired();
 
@@ -89,7 +88,7 @@ namespace HIS.Infrastructure.Presestance.Configurations
 
                 identity.Property(x => x.Type)
                     .HasColumnName("IdentityType")
-                    .HasConversion<string>()
+                    .HasConversion<int>()
                     .HasMaxLength(20)
                     .IsRequired();
 

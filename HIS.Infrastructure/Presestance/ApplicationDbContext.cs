@@ -33,6 +33,7 @@ namespace HIS.Infrastructure.Presestance
 
 
         public DbSet<Patient> Patients => Set<Patient>();
+       // public DbSet<Appointment> Appointments => Set<Appointment>();
 
         public DbSet<MedicalRecord> MedicalRecords => Set<MedicalRecord>();
 

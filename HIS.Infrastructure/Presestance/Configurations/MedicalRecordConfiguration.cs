@@ -1,16 +1,11 @@
 ﻿using HIS.Domain.Aggregates.PatientAggregate.Entities.SubEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace HIS.Infrastructure.Presestance.Configurations
 {
-    public sealed class MedicalRecordConfiguration
-    : IEntityTypeConfiguration<MedicalRecord>
+    public sealed class MedicalRecordConfiguration : IEntityTypeConfiguration<MedicalRecord>
     {
         public void Configure(EntityTypeBuilder<MedicalRecord> builder)
         {
