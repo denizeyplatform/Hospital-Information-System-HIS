@@ -1,4 +1,7 @@
 ﻿using HIS.Application.DTO;
+using HIS.Application.DTO.Documents;
+using HIS.Application.DTO.MedicalHistory;
+using HIS.Application.DTO.Patient;
 using HIS.Domain.Aggregates.PatientAggregate.Entities;
 using System;
 using System.Collections.Generic;
@@ -19,7 +22,7 @@ namespace HIS.Application.Interface
         // ----------------------------------------
 
         //1
-        Task AddAsync(PatientDto patient);
+        Task AddAsync(PatientDto patient, CancellationToken cancellationToken);
 
         //2
         Task<PatientDto?> GetByIdAsync(Guid patientId);
@@ -38,9 +41,25 @@ namespace HIS.Application.Interface
         void Update(Patient patient);
 
         //4 upload medical record function
-        //5 get patient documents function
-        //6 add medical history function
-        //7 search patients by name, NID, MRN, phone)
-        //8 deactivate patient function
+        Task UploadMedicalDocumentAsync(Guid patientId,UploadMedicalDocumentRequest request,
+               CancellationToken cancellationToken = default);
+
+        
+        Task<IReadOnlyCollection<DocumentDto>> GetPatientDocumentsAsync(Guid patientId,
+            CancellationToken cancellationToken = default);
+        
+        Task AddMedicalHistoryEntryAsync(
+             Guid patientId,
+             AddMedicalHistoryRequest request,
+             CancellationToken cancellationToken = default);
+        
+        Task<HIS.Application.DTO.Common.PagedResult<PatientSummaryDto>> SearchPatientsAsync(
+           PatientSearchRequest request,
+           CancellationToken cancellationToken = default);
+      
+            Task DeactivatePatientAsync(
+                    Guid patientId,
+                    DeactivatePatientRequest request,
+                    CancellationToken cancellationToken = default);
     }
 }

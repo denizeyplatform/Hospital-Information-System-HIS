@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Aggregates\PatientAggregate\ValueObject\PersonName.cs~RF2bf05bc5.TMP" />
+    <None Remove="Interfaces\Repository\IPatientRepository.cs~RF33bfa76.TMP" />
   </ItemGroup>
 
   <ItemGroup>

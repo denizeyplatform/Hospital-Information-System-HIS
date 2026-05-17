@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using HIS.Domain.Common;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,16 @@ namespace HIS.Infrastructure.Events
 {
     public interface INotificationWrapper<out T> : INotification
     {
-        T Notification { get; }
+        T DomainEvent { get; }
     }
 
     public class NotificationWrapper<T> : INotificationWrapper<T>
     {
         public NotificationWrapper(T notification)
         {
-            Notification = notification;
+            DomainEvent = notification;
         }
 
-        public T Notification { get; }
+        public T DomainEvent { get; }
     }
 }

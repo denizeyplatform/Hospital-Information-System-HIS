@@ -13,7 +13,7 @@ namespace HIS.Infrastructure.Events
         public Task Handle(INotificationWrapper<PatientCreatedDomainEvent> notification, CancellationToken cancellationToken)
         {
             Console.WriteLine(
-            $"Patient Created: {notification.Notification.PatientId}");
+            $"Patient Created: {notification.DomainEvent.PatientId}");
 
             return Task.CompletedTask;
         }

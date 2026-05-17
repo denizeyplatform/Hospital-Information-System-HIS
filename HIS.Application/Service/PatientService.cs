@@ -1,4 +1,8 @@
 ﻿using HIS.Application.DTO;
+using HIS.Application.DTO.Common;
+using HIS.Application.DTO.Documents;
+using HIS.Application.DTO.MedicalHistory;
+using HIS.Application.DTO.Patient;
 using HIS.Application.Interface;
 using HIS.Domain.Aggregates.PatientAggregate.Entities;
 using HIS.Domain.Interfaces.Repository;
@@ -28,37 +32,72 @@ namespace HIS.Application.Service
             throw new NotImplementedException();
         }
 
-        public Task<bool> ExistsByNationalIdentityAsync(string nationalIdentity)
+        public Task AddAsync(PatientDto patient, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> ExistsDuplicateActivePatientAsync(string nationalIdentity, string phoneNumber)
+        Task IPatientService.AddAsync(PatientDto patient, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PatientDto?> GetByIdAsync(Guid patientId)
+        Task IPatientService.AddMedicalHistoryEntryAsync(Guid patientId, AddMedicalHistoryRequest request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PatientDto?> GetByMRNAsync(string mrn)
+        Task IPatientService.DeactivatePatientAsync(Guid patientId, DeactivatePatientRequest request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PatientDto?> GetByNationalIdentityAsync(string nationalIdentity)
+        Task<bool> IPatientService.ExistsByNationalIdentityAsync(string nationalIdentity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> HasActiveAppointmentsAsync(Guid patientId)
+        Task<bool> IPatientService.ExistsDuplicateActivePatientAsync(string nationalIdentity, string phoneNumber)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Patient patient)
+        Task<PatientDto?> IPatientService.GetByIdAsync(Guid patientId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<PatientDto?> IPatientService.GetByMRNAsync(string mrn)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<PatientDto?> IPatientService.GetByNationalIdentityAsync(string nationalIdentity)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IReadOnlyCollection<DocumentDto>> IPatientService.GetPatientDocumentsAsync(Guid patientId, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IPatientService.HasActiveAppointmentsAsync(Guid patientId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<PagedResult<PatientSummaryDto>> IPatientService.SearchPatientsAsync(PatientSearchRequest request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IPatientService.Update(Patient patient)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IPatientService.UploadMedicalDocumentAsync(Guid patientId, UploadMedicalDocumentRequest request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

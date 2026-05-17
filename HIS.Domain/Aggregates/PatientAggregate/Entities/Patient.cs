@@ -42,8 +42,10 @@ namespace HIS.Domain.Aggregates.PatientAggregate.Entities
         
         private Patient() { }
 
-        public static Patient Create(PersonName fullName,NationalIdentity nationalIdentity,PhoneNumber phoneNumber,
-                    Address address,DateOnly dateOfBirth,int gender, InsurancePolicy? insurancePolicy = null)
+        public static Patient Create(PersonName fullName,NationalIdentity nationalIdentity,
+            PhoneNumber phoneNumber,
+                    Address address,
+                    DateOnly dateOfBirth,int gender, InsurancePolicy? insurancePolicy = null)
         {
             ValidateAge(dateOfBirth);
 
