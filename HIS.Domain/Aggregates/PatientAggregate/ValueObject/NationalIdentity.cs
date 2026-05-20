@@ -20,7 +20,7 @@ namespace HIS.Domain.Aggregates.PatientAggregate.ValueObject
         {
         }
 
-        private NationalIdentity(string value,IdentityDocumentType type)
+        public NationalIdentity(string value,IdentityDocumentType type)
         {
             Value = value;
             Type = type;

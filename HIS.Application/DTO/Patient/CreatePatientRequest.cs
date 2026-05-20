@@ -29,7 +29,7 @@ namespace HIS.Application.DTO.Patient
 
         public DateOnly DateOfBirth { get; init; }
 
-        public string Gender { get; init; } = default!;
+        public int Gender { get; init; } = default!;
 
         // Optional Insurance
 

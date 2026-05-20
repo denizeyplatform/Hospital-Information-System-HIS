@@ -36,9 +36,9 @@ namespace HIS.Application.Service
 
         public async Task<Guid> CreateAsync(CreatePatientRequest request)
         {
-            if( await _patientRepository.ExistsDuplicateActivePatientAsync(request.NationalIdentity, request.PhoneNumber)) { }
-                throw new InvalidOperationException("Duplicate active patient exists.");
-           
+            if (await _patientRepository.ExistsDuplicateActivePatientAsync(request.NationalIdentity, request.PhoneNumber)) { }
+            throw new InvalidOperationException("Duplicate active patient exists.");
+
             var patient = _mapper.Map<Patient>(request);
             await _patientRepository.AddAsync(patient);
 
@@ -62,9 +62,16 @@ namespace HIS.Application.Service
                 Status = patient.Status.ToString(),
             };
         }
-        public Task UpdatePatientAsync(Guid patientId, UpdatePatientRequest request, CancellationToken cancellationToken = default)
+        public async Task UpdatePatientAsync(Guid patientId, UpdatePatientRequest request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var patient = await _patientRepository.GetByIdAsync(patientId);
+            if (patient is null)
+                throw new Exception("Patient is not exist");
+            if (!patient.IsActive)
+                throw new InvalidOperationException("Inactive patient.");
+            var map =  _mapper.Map<Patient>(request);
+            await _patientRepository.UpdateAsync(map);
+            patient.UpdatePersonalInfo(patient.FullName, patient.PhoneNumber, patient.Address, patient.Gender);
         }
         public async Task UploadDocumentAsync(
             Guid patientId,

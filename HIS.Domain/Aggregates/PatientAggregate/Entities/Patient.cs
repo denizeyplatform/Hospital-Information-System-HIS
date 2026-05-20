@@ -47,7 +47,7 @@ namespace HIS.Domain.Aggregates.PatientAggregate.Entities
                 PersonName fullName,
                 NationalIdentity nationalIdentity,
                 PhoneNumber phoneNumber,
-                //Address address,
+                Address address,
                 DateOnly dateOfBirth,
                 int gender, 
                 InsurancePolicy? insurancePolicy = null)

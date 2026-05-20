@@ -28,6 +28,7 @@ namespace HIS.Infrastructure.Presestance.Repository
                 patient.FullName, 
                 patient.NationalIdentity, 
                 patient.PhoneNumber, 
+                patient.Address,
                 patient.DateOfBirth,
                 patient.Gender);
             await _context.Patients.AddAsync(patient);
