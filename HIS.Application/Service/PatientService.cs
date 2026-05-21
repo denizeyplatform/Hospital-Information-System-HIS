@@ -73,10 +73,7 @@ namespace HIS.Application.Service
             await _patientRepository.UpdateAsync(map);
             patient.UpdatePersonalInfo(patient.FullName, patient.PhoneNumber, patient.Address, patient.Gender);
         }
-        public async Task UploadDocumentAsync(
-            Guid patientId,
-            UploadMedicalDocumentRequest request,
-            CancellationToken cancellationToken = default)
+        public async Task UploadDocumentAsync(Guid patientId,UploadMedicalDocumentRequest request,CancellationToken cancellationToken = default)
         {
             var patient = await _patientRepository.GetByIdAsync(patientId);
 
@@ -116,9 +113,7 @@ namespace HIS.Application.Service
         {
             throw new NotImplementedException();
         }
-        public async Task AddMedicalHistoryAsync(
-              Guid patientId,
-              MedicalRecord record)
+        public async Task AddMedicalHistoryAsync(Guid patientId,MedicalRecord record)
         {
             var patient = await _patientRepository.GetByIdAsync(patientId);
 
@@ -126,14 +121,14 @@ namespace HIS.Application.Service
                 throw new KeyNotFoundException("Patient not found.");
 
             if (!patient.IsActive)
-                throw new InvalidOperationException("Inactive patient.");
+                throw new InvalidOperationException("Cannot add medical history to inactive patient.");
 
             patient.AddMedicalHistoryEntry(record);
 
             await _patientRepository.UpdateAsync(patient);
         }
 
-        public async Task<PagedResult<Patient>> SearchAsync(
+        public async Task<PagedResult<PatientDto>> SearchAsync(
             PatientSearchRequest request,
             CancellationToken cancellationToken = default)
         {
@@ -146,9 +141,16 @@ namespace HIS.Application.Service
                 request.PageSize);
 
             var totalCount = patients.Count;
+            var mappedPatients = patients.Select(p => new PatientDto
+            {
+                FullName = $"{p.FullName.FirstName} {p.FullName.LastName}",
+                NationalIdentity = p.NationalIdentity.Value,
+                PhoneNumber = p.PhoneNumber.Value,
+                DateOfBirth = p.DateOfBirth,
+            }).ToList();
 
-            return PagedResult<Patient>.Create(
-                patients,
+            return PagedResult<PatientDto>.Create(
+                mappedPatients,
                 request.PageNumber,
                 request.PageSize,
                 totalCount);

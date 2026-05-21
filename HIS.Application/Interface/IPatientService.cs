@@ -43,7 +43,7 @@ namespace HIS.Application.Interface
         Task AddMedicalHistoryAsync(Guid patientId, MedicalRecord record);
 
 
-        Task<PagedResult<Patient>> SearchAsync(
+        Task<PagedResult<PatientDto>> SearchAsync(
                 PatientSearchRequest request,
            CancellationToken cancellationToken = default);
       
