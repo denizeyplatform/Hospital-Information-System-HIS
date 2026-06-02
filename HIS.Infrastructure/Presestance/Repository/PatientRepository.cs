@@ -16,6 +16,11 @@ namespace HIS.Infrastructure.Presestance.Repository
     public class PatientRepository : IPatientRepository
     {
         public readonly ApplicationDbContext _context;
+
+        public PatientRepository()
+        {
+            
+        }
         public PatientRepository(ApplicationDbContext context)
         {
             _context = context;
@@ -24,14 +29,14 @@ namespace HIS.Infrastructure.Presestance.Repository
         public async Task AddAsync(Patient patient)
         {
             
-            Patient.Create(
+           var p = Patient.Create(
                 patient.FullName, 
                 patient.NationalIdentity, 
                 patient.PhoneNumber, 
                 patient.Address,
                 patient.DateOfBirth,
                 patient.Gender);
-            await _context.Patients.AddAsync(patient);
+            await _context.Patients.AddAsync(p);
             await _context.SaveChangesAsync();
         }
 

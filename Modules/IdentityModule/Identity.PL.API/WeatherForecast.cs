@@ -1,4 +1,4 @@
-namespace Patient.Presentation
+namespace Identity.PL.API
 {
     public class WeatherForecast
     {

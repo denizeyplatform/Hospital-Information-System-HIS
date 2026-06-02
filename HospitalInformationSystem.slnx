@@ -1,7 +1,21 @@
 <Solution>
+  <Folder Name="/Modules/" />
+  <Folder Name="/Modules/APIGateway/">
+    <Project Path="Modules/APIGaeway/Ocelot.APIGateway/Ocelot.APIGateway.csproj" Id="2fbf9b56-bfb2-4591-887f-0f2cfa965997" />
+  </Folder>
+  <Folder Name="/Modules/IdentityModule/">
+    <Project Path="Modules/IdentityModule/Identity.Application/Identity.Application.csproj" Id="5f4c8b85-2e76-4062-b344-6ace935a10b8" />
+    <Project Path="Modules/IdentityModule/Identity.Domain/Identity.Domain.csproj" Id="295bdf38-76ba-4938-bb53-c24929dcaa7c" />
+    <Project Path="Modules/IdentityModule/Identity.Infrastructure/Identity.Infrastructure.csproj" Id="004ab120-ba54-4dc4-a8a4-603685869581" />
+    <Project Path="Modules/IdentityModule/Identity.PL.API/Identity.PL.API.csproj" Id="c789fcbe-2858-4526-a630-3abda23d8e60" />
+  </Folder>
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
   <Project Path="HIS.API/HIS.API.csproj" />
   <Project Path="HIS.Application/HIS.Application.csproj" />
   <Project Path="HIS.Domain/HIS.Domain.csproj" />
   <Project Path="HIS.Infrastructure/HIS.Infrastructure.csproj" />
   <Project Path="HIS.TEST/HIS.TEST.csproj" Id="5eb18620-34b1-4707-9fa6-a9fc31d3fa6f" />
+  <Project Path="HIS.Testing.Integration/HIS.Testing.Integration.csproj" Id="a2c81a08-883b-47e2-8b4f-2367cf81b9fc" />
 </Solution>

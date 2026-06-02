@@ -37,7 +37,7 @@ namespace HIS.TEST
         public async Task CreateAsync_ShouldCreatePatient_WhenPatientDoesNotExist()
         {
             // Arrange
-            var request = new CreatePatientRequest
+            var request = new CreatePatientRequest // dto
             {
                 FirstName = "Ahmed",
                 LastName = "Farag",
@@ -58,11 +58,11 @@ namespace HIS.TEST
                 new DateOnly(1998, 1, 1),
                 1);
 
-            _patientRepositoryMock
-                .Setup(x => x.ExistsDuplicateActivePatientAsync(
-                    request.NationalIdentity,
-                    request.PhoneNumber))
-                .ReturnsAsync(false);
+            //_patientRepositoryMock
+            //    .Setup(x => x.ExistsDuplicateActivePatientAsync(
+            //        request.NationalIdentity,
+            //        request.PhoneNumber))
+            //    .ReturnsAsync(false);
 
             _mapperMock
                 .Setup(x => x.Map<Patient>(request))

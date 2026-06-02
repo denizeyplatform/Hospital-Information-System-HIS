@@ -1,0 +1,34 @@
+{
+
+  "Aggregates": [], // optional
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/create/patient",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "HIS.API",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/create/patient",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+    {
+
+    },
+  ], // required section
+  "DynamicRoutes": [], // optional section
+  "GlobalConfiguration": { // required
+    "BaseUrl": "https://denizey.api/gateway.com/"
+  }
+}
