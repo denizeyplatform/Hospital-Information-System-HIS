@@ -13,11 +13,6 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Modules/APIGaeway/Ocelot.APIGateway/Ocelot.APIGateway.csproj", "Modules/APIGaeway/Ocelot.APIGateway/"]
-COPY ["HIS.API/HIS.API.csproj", "HIS.API/"]
-COPY ["HIS.Application/HIS.Application.csproj", "HIS.Application/"]
-COPY ["HIS.Domain/HIS.Domain.csproj", "HIS.Domain/"]
-COPY ["HIS.Infrastructure/HIS.Infrastructure.csproj", "HIS.Infrastructure/"]
-COPY ["Modules/IdentityModule/Identity.PL.API/Identity.PL.API.csproj", "Modules/IdentityModule/Identity.PL.API/"]
 RUN dotnet restore "./Modules/APIGaeway/Ocelot.APIGateway/Ocelot.APIGateway.csproj"
 COPY . .
 WORKDIR "/src/Modules/APIGaeway/Ocelot.APIGateway"

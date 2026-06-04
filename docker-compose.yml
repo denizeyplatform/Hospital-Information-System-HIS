@@ -1,21 +1,11 @@
 services:
 
   ocelot.apigateway:
+    container_name: ocelot.apigateway
     image: ${DOCKER_REGISTRY-}ocelotapigateway
+    ports:
+      - "8080:8081"
     build:
       context: .
       dockerfile: Modules/APIGaeway/Ocelot.APIGateway/Dockerfile
-
-  his.api:
-    image: ${DOCKER_REGISTRY-}hisapi
-    build:
-      context: .
-      dockerfile: HIS.API/Dockerfile
-
-
-  identity.pl.api:
-    image: ${DOCKER_REGISTRY-}identityplapi
-    build:
-      context: .
-      dockerfile: Modules/IdentityModule/Identity.PL.API/Dockerfile
 

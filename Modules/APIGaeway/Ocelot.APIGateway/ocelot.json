@@ -1,34 +1,119 @@
 {
-
-  "Aggregates": [], // optional
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/create/patient",
+      "UpstreamPathTemplate": "/api/patients-service/patients",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamPathTemplate": "/api/patients",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "his.api",
+          "Port": 7032
+        }
+      ],
+      "SwaggerKey": "his.api"
+    },
+    {
+      "UpstreamPathTemplate": "/api/patients-service/patients/{patientId}",
+      "UpstreamHttpMethod": [ "GET", "PUT" ],
+      "DownstreamPathTemplate": "/api/patients/{patientId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "HIS.API",
+          "Host": "his.api",
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/create/patient",
-      "UpstreamHttpMethod": [ "POST" ]
+      "SwaggerKey": "his.api"
     },
     {
-
+      "UpstreamPathTemplate": "/api/patients-service/patients/{patientId}/documents",
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "DownstreamPathTemplate": "/api/patients/{patientId}/documents",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "his.api",
+          "Port": 5001
+        }
+      ],
+      "SwaggerKey": "his.api"
     },
     {
-
+      "UpstreamPathTemplate": "/api/patients-service/patients/{patientId}/medical-history",
+      "UpstreamHttpMethod": [ "POST" ],
+      "DownstreamPathTemplate": "/api/patients/{patientId}/medical-history",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "his.api",
+          "Port": 5001
+        }
+      ],
+      "SwaggerKey": "his.api"
     },
     {
-
+      "UpstreamPathTemplate": "/api/patients-service/patients/search",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/patients/search",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "his.api",
+          "Port": 5001
+        }
+      ],
+      "SwaggerKey": "his.api"
     },
     {
+      "UpstreamPathTemplate": "/api/patients-service/patients/{patientId}/deactivate",
+      "UpstreamHttpMethod": [ "PATCH" ],
+      "DownstreamPathTemplate": "/api/patients/{patientId}/deactivate",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "his.api",
+          "Port": 7032
+        }
+      ],
+      "RateLimitOptions": {
+        "EnableRateLimiting": true,
+        "Period": "5m",
+        "Limit": 10
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 5000,
+        "TimeoutValue": 30000
+      },
+      "SwaggerKey": "his.api"
+    }
+  ],
 
+  "SwaggerEndPoints": [
+    {
+      "Key": "his.api",
+      "Config": [
+        {
+          "Name": "Patient Service",
+          "Version": "v1",
+          "Url": "https://localhost:7032/swagger/v1/swagger.json"
+        }
+      ]
     },
-  ], // required section
-  "DynamicRoutes": [], // optional section
-  "GlobalConfiguration": { // required
-    "BaseUrl": "https://denizey.api/gateway.com/"
+    {
+      "Key": "identity.pl.api",
+      "Config": [
+        {
+          "Name": "Identity Service",
+          "Version": "v1",
+          "Url": "http://localhost:5001/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+
+  "GlobalConfiguration": {
+    "BaseUrl": "https://denizey.api/gateway.com/his"
   }
 }

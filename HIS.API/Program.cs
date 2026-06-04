@@ -34,9 +34,9 @@ app.UseAuthorization();
 
 //app.MapPatientEndpoints();
 
-await CreatePatientEndPoint.MapEndPoint(app);
-await GetPatientByIdEndPoint.MapEndPoint(app);
-await UpdatePatientEndPoint.MapEndPoint(app);
+//await CreatePatientEndPoint.MapEndPoint(app);
+//await GetPatientByIdEndPoint.MapEndPoint(app);
+//await UpdatePatientEndPoint.MapEndPoint(app);
 
 app.MapControllers();
 
