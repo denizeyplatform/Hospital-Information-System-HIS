@@ -4,11 +4,11 @@
       "UpstreamPathTemplate": "/api/patients-service/patients",
       "UpstreamHttpMethod": [ "POST" ],
       "DownstreamPathTemplate": "/api/patients",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "his.api",
-          "Port": 7032
+          "Port": 5001
         }
       ],
       "SwaggerKey": "his.api"
@@ -69,17 +69,17 @@
       "UpstreamPathTemplate": "/api/patients-service/patients/{patientId}/deactivate",
       "UpstreamHttpMethod": [ "PATCH" ],
       "DownstreamPathTemplate": "/api/patients/{patientId}/deactivate",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "his.api",
-          "Port": 7032
+          "Port": 5001
         }
       ],
       "RateLimitOptions": {
         "EnableRateLimiting": true,
-        "Period": "5m",
-        "Limit": 10
+        "Period": "1m",
+        "Limit": 100
       },
       "QoSOptions": {
         "ExceptionsAllowedBeforeBreaking": 3,
@@ -97,7 +97,7 @@
         {
           "Name": "Patient Service",
           "Version": "v1",
-          "Url": "https://localhost:7032/swagger/v1/swagger.json"
+          "Url": "http://his.api:5001/swagger/v1/swagger.json"
         }
       ]
     },
@@ -107,13 +107,13 @@
         {
           "Name": "Identity Service",
           "Version": "v1",
-          "Url": "http://localhost:5001/swagger/v1/swagger.json"
+          "Url": "http://identity.pl.api:5002/swagger/v1/swagger.json"
         }
       ]
     }
   ],
 
   "GlobalConfiguration": {
-    "BaseUrl": "https://denizey.api/gateway.com/his"
+    "BaseUrl": "http://api.denizey.com"
   }
 }
