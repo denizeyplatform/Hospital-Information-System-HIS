@@ -1,20 +1,34 @@
 {
   "profiles": {
-    "http": {
+    "Development": {
       "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5001"
+      "applicationUrl": "https://localhost:7000;http://localhost:5002"
     },
-    "https": {
+    "Staging": {
       "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Staging"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7228;http://localhost:5001"
+      "applicationUrl": "https://localhost:7000;http://localhost:5002"
+    },
+    "Production": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7000;http://localhost:5002"
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",
