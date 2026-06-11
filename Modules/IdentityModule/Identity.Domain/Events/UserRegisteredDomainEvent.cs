@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Events
 {
-    public record UserRegisteredDomainEvent(DateTime OccurredOnUtc) : IDomainEvent
+    public record UserRegisteredDomainEvent(DateTime OccurredOnUtc, string UserId) : IDomainEvent
     {
     }
 }
