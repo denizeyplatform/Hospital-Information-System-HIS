@@ -1,5 +1,4 @@
-﻿
-using Identity.Application.Contracts.Interface;
+﻿using Identity.Application.Contracts.Interface.Repository;
 using Identity.Domain.Interface.Service;
 using Identity.Infrastructure.Models;
 using Identity.Infrastructure.Presistance.Data;
@@ -23,6 +22,10 @@ namespace Identity.Infrastructure.Configurations
         public static IServiceCollection AddJWTCongigurations(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
+            if (jwtSettings == null)
+            {
+                throw new Exception("JWT settings are not configured properly.");
+            }
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey));
 
             services.AddAuthentication(o =>

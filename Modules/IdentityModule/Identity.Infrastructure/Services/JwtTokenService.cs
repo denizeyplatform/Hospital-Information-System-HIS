@@ -1,7 +1,10 @@
-﻿using Identity.Domain.Interface.Service;
+﻿using Identity.Application.DTOs;
+using Identity.Domain.Interface.Service;
 using Identity.Infrastructure.Configurations;
 using Identity.Infrastructure.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -10,6 +13,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +23,7 @@ namespace Identity.Infrastructure.Services
     {
         public readonly UserManager<User> _userManager;
 
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration? _configuration;
         private readonly SymmetricSecurityKey _secretKey;
         private readonly string? _validIssuer;
         private readonly string? _validAudience;
@@ -27,9 +31,10 @@ namespace Identity.Infrastructure.Services
 
         public JwtTokenService(IConfiguration configuration, UserManager<User> userManager)
         {
+            _configuration = configuration;
             _userManager = userManager;
 
-            var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>(); // mapping
+            var jwtSettings = _configuration.GetSection("JwtSettings").Get<JwtSettings>(); // mapping
 
             if (jwtSettings == null || string.IsNullOrEmpty(jwtSettings.SecretKey))
             {
@@ -65,12 +70,16 @@ namespace Identity.Infrastructure.Services
         private async Task<List<Claim>> GetClaimsPayloadAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new InvalidOperationException($"User with ID '{userId}' not found.");
+            }
 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user?.Id ?? string.Empty),
                 new Claim(ClaimTypes.Name, user?.UserName ?? string.Empty),
-                new Claim(ClaimTypes.Email, user?.Email.Value ?? string.Empty)
+                new Claim(ClaimTypes.Email, user?.Email ?? string.Empty)
             };
 
            
@@ -93,11 +102,38 @@ namespace Identity.Infrastructure.Services
         }
 
 
-
-
-        public string GenerateRefreshToken()
+        public async Task<string> GenerateRefreshToken()
         {
-            throw new NotImplementedException();
+            var randomNumber = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+
+            var refreshToken = Convert.ToBase64String(randomNumber);
+
+
+            // save refresh token to database with user association and expiration time
+            // get current user from context
+        
+            var httpContext = new HttpContextAccessor().HttpContext;
+            var userId = httpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // example expiration time
+           
+
+            var result = await _userManager.UpdateAsync(user) ;
+            if (result.Succeeded)
+            {
+                return refreshToken;
+
+            }
+            return "Invalid Refresh Token";
+            
         }
+
+       
     }
 }

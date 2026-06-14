@@ -18,11 +18,11 @@ namespace Identity.Infrastructure.Models
         public int? Gender { get; set; }
         public DateOnly? BOD { get; set; }
 
-        [NotMapped]
-        public Email Email { get; set; }
+        //[NotMapped]
+        //public Email UserEmail { get; set; } = new Email("");
         
-        [NotMapped]
-        public HashedPassword HashedPassword { get; set; }
+        //[NotMapped]
+        //public HashedPassword HashedPassword { get; set; } = new HashedPassword("");
         public string? token { get; set; } = string.Empty;
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }

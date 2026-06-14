@@ -1,5 +1,6 @@
 ﻿using Identity.Application.Contracts.Interface;
 using Identity.Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace Identity.PL.API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
 
         public async Task<IActionResult> Register(RegisterRequestDTO userDto)
         {
@@ -26,6 +28,7 @@ namespace Identity.PL.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
 
         public async Task<IActionResult> login(LoginRequestDTO userDto)
         {
@@ -34,6 +37,27 @@ namespace Identity.PL.API.Controllers
 
             return Ok(user);
         }
-    }
 
+        [HttpPost("refresh-token")]
+        [Authorize]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var token = await _authService.RefreshToken();
+            if (token == null) return BadRequest("Invalid Token");
+            return Ok(token);
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout([FromBody] RefreshTokenRequest request)
+        {
+            var response = await _authService.LogoutAsync(request);
+            if (response != null && response.Message == "You have logout successfully")
+            {
+                return Ok(response);
+            }
+            return BadRequest(response);
+        }
+
+    }
 }

@@ -13,9 +13,10 @@ namespace Identity.Application.DTOs
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public int Gender { get; set; }
-        public string Email { get; set; }
-        public string HashedPassword { get; set; }
-   
+        public string Email { get; set; } = string.Empty;
+        public string HashedPassword { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
+
 
     }
 }

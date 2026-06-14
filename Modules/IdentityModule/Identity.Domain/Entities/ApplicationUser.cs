@@ -12,7 +12,7 @@ namespace Identity.Domain.Entities
     public class ApplicationUser : AggregateRoot<string>
     {
 
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         
         public void registerDomainEvent()
         {

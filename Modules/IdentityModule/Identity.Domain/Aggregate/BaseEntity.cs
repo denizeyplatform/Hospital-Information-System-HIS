@@ -8,7 +8,7 @@ namespace Identity.Domain.Aggregate
 {
     public class BaseEntity<TId>
     {
-        public TId Id { get; set; }
+        public TId Id { get; set; } = default!;
         public DateTime CreatedAt { get; protected set; }
        = DateTime.UtcNow;
 

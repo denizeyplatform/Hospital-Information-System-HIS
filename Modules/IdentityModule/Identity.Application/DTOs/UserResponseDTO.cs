@@ -15,6 +15,8 @@ namespace Identity.Application.DTOs
         public string LastName { get; set; } = string.Empty;
         public Gender Gender { get; set; } = Gender.Male;
         public string Email { get; set; } = string.Empty;
+        public bool RequiresMfa { get; set; } = false;
+        public string UserId { get; set; } = string.Empty;
         public string token { get; set; } = string.Empty;
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }

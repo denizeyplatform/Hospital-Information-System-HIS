@@ -12,7 +12,7 @@ namespace Identity.Domain.ValueObjects
         public string Value { get; set; }
         public Email(string _value)
         {
-            var regex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";  // add email format
+            var regex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";  // add email format
 
             if (!Regex.IsMatch(_value, regex))
                 throw new Exception("Email format is invalid.");

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.DTOs
 {
-    public class LoginRequestDTO
+    public class RefreshTokenRequest
     {
-        public string Email { get; set; } = string.Empty;
-        public string HashedPassword { get; set; } = string.Empty;
+        public string RefreshToken { get; set; } = string.Empty;
     }
 }

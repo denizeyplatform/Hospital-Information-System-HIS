@@ -11,5 +11,8 @@ namespace Identity.Application.Contracts.Interface
     {
         Task<UserResponseDTO> RegisterAsync(RegisterRequestDTO request);
         Task<UserResponseDTO> LoginAsync(LoginRequestDTO request);
+        Task<string> RefreshToken();
+        Task<RevokeRefreshTokenResponse> LogoutAsync(RefreshTokenRequest refreshTokenRemoveRequest);
+
     }
 }
