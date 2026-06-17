@@ -1,8 +1,10 @@
-﻿using Identity.Application.DTOs;
+﻿using Identity.Application.Contracts.Interface;
+using Identity.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace Identity.PL.API.Controllers
 {
@@ -10,30 +12,29 @@ namespace Identity.PL.API.Controllers
     [ApiController]
     public class MFAController : ControllerBase
     {
-        [HttpPost("verify-mfa")]
-        public async Task<IActionResult> VerifyMfa(VerifyMfaRequest request)
+        public readonly IMFAService _mfaService;
+        public MFAController(IMFAService mfaService)
         {
-            //var result =
-            //    await _mediator.Send(
-            //        new VerifyMfaCommand(
-            //            request.UserId,
-            //            request.Code));
-
-            return Ok();
+            _mfaService = mfaService;
         }
 
         [Authorize]
         [HttpPost("enable-mfa")]
-        public async Task<IActionResult> EnableMfa()
+        public async Task<IActionResult> EnableMfa(string userId)
         {
-            //var user =
-            //    await _userManager.GetUserAsync(User);
+            var result = await _mfaService.EnableMFAAsync(userId);
 
-            //user.IsMfaEnabled = true;
-
-            //await _userManager.UpdateAsync(user);
-
-            return Ok();
+            return Ok(result);
         }
+
+        [HttpPost("verify-mfa")]
+        public async Task<IActionResult> VerifyMfa(VerifyMfaRequest request)
+        {
+            var result = await _mfaService.VerifyMfaAsync(request);
+
+            return Ok(result);
+        }
+
+       
     }
 }

@@ -1,9 +1,11 @@
-﻿using Identity.Application.Contracts.Interface.Repository;
+﻿using Identity.Application.Contracts.Interface;
+using Identity.Application.Contracts.Interface.Repository;
 using Identity.Domain.Interface.Service;
 using Identity.Infrastructure.Models;
 using Identity.Infrastructure.Presistance.Data;
 using Identity.Infrastructure.Repository;
 using Identity.Infrastructure.Services;
+using Identity.Infrastructure.Services.Email;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 using System.Text;
+using System.Text.Json.Serialization;
 
 
 namespace Identity.Infrastructure.Configurations
@@ -21,6 +24,8 @@ namespace Identity.Infrastructure.Configurations
     {
         public static IServiceCollection AddJWTCongigurations(this IServiceCollection services, IConfiguration configuration)
         {
+            
+
             var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>();
             if (jwtSettings == null)
             {
@@ -63,7 +68,7 @@ namespace Identity.Infrastructure.Configurations
 
             return services;
         }
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, string connectionString, IConfiguration configuration)
         {
 
             services.AddDbContext<AppIdentityDBContext>(options =>
@@ -73,8 +78,21 @@ namespace Identity.Infrastructure.Configurations
                 .AddEntityFrameworkStores<AppIdentityDBContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromMinutes(5);
+            });
+
+            services.Configure<EmailSettings>(
+                configuration.GetSection("EmailSettings"));
+
+          
+
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IMFARepository, MFARepository>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IPasswordRepository, PasswordRepository>();
 
             return services;
         }

@@ -9,7 +9,8 @@ namespace Identity.Application.Contracts.Interface
 {
     public interface IMFAService
     {
-        
+        Task<bool> EnableMFAAsync(string userId);
+        Task<UserResponseDTO?> VerifyMfaAsync(VerifyMfaRequest request);
 
     }
 }

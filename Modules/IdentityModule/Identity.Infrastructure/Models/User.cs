@@ -1,4 +1,5 @@
 ﻿using Identity.Domain.Aggregate;
+using Identity.Domain.Enums;
 using Identity.Domain.ValueObjects;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -15,7 +16,7 @@ namespace Identity.Infrastructure.Models
         // Additional properties can be added here as needed
         public string FirstName { get; set; } = string.Empty;
         public string? LastName { get; set; } = string.Empty;
-        public int? Gender { get; set; }
+        public Gender? Gender { get; set; }
         public DateOnly? BOD { get; set; }
 
         //[NotMapped]

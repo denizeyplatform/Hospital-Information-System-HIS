@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Domain.Enums
+namespace Identity.Application.DTOs
 {
-    public enum Gender
+    public class ForgetPasswordDTO
     {
-        Male = 0,
-        Female = 1  
+        public string Email { get; set; }
     }
 }

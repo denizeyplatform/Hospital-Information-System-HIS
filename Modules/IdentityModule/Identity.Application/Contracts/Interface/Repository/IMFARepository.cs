@@ -10,6 +10,6 @@ namespace Identity.Application.Contracts.Interface.Repository
     public interface IMFARepository
     {
         Task<bool> EnableMFA(string userId);
-        Task<bool> VerifyMfaAsync(VerifyMfaRequest request);
+        Task<UserResponseDTO?> VerifyMfaAsync(VerifyMfaRequest request);
     }
 }

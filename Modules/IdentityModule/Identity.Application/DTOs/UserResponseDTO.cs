@@ -13,7 +13,7 @@ namespace Identity.Application.DTOs
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public Gender Gender { get; set; } = Gender.Male;
+        public Gender? Gender { get; set; } 
         public string Email { get; set; } = string.Empty;
         public bool RequiresMfa { get; set; } = false;
         public string UserId { get; set; } = string.Empty;

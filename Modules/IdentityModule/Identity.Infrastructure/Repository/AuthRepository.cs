@@ -1,4 +1,5 @@
-﻿using Identity.Application.Contracts.Interface.Repository;
+﻿using Identity.Application.Contracts.Interface;
+using Identity.Application.Contracts.Interface.Repository;
 using Identity.Application.DTOs;
 using Identity.Domain.Enums;
 using Identity.Domain.Interface.Service;
@@ -17,41 +18,54 @@ namespace Identity.Infrastructure.Repository
         public readonly AppIdentityDBContext _context;
         public readonly UserManager<User> userManager;
         public readonly IJwtTokenService jwtTokenService;
-        public AuthRepository(AppIdentityDBContext context, UserManager<User> _userManager, IJwtTokenService _jwtTokenService)
+        private readonly IEmailService _emailService;
+        public AuthRepository(AppIdentityDBContext context, UserManager<User> _userManager, IJwtTokenService _jwtTokenService, IEmailService emailService)
         {
             _context = context;
             userManager = _userManager;
             jwtTokenService = _jwtTokenService;
+            _emailService = emailService;
         }
 
-        public async Task<UserResponseDTO?> Login(string email, string password)
+        public async Task<UserResponseDTO> Login(string email, string password)
         {
            
             var user = await userManager.FindByEmailAsync(email);
-            if (user != null)
-            {
-               await userManager.CheckPasswordAsync(user, password);
-              
-               var token = await jwtTokenService.GenerateToken(user.Id);
+            if (user == null)
+                throw new Exception("User not found");
+
+                await userManager.CheckPasswordAsync(user, password);
               
 
-                //if (user.TwoFactorEnabled)
-                //{
-                //    return new UserResponseDTO
-                //    {
-                //        RequiresMfa = true,
-                //        UserId = user.Id
-                //    };
-                //}
-                return new UserResponseDTO
+                if (user.TwoFactorEnabled)
+                {
+                    var code = await userManager.GenerateTwoFactorTokenAsync(user,TokenOptions.DefaultEmailProvider);
+                  
+                    var to = user.Email;
+                    var subject = "Your Verification Code";
+                    var body = $"Your verification code is: {code}";
+
+                    await _emailService.SendAsync(to, subject, body);
+
+                    //_backgroundJobClient.Enqueue<IEmailService>( x => x.SendAsync(user.Email, "Verification Code",code));
+
+                    return new UserResponseDTO
+                        {
+                            RequiresMfa = true,
+                            UserId = user.Id
+                        };
+                }
+
+            var token = await jwtTokenService.GenerateToken(user.Id);
+
+            return new UserResponseDTO
                {
                    FirstName = user.FirstName,
                    Email = user.Email,
-                 //  Gender = Enum.Parse<Gender>(user.Gender.ToString()),
+                   Gender = user.Gender,
                    token = token
                 };
-            }
-            return null;
+        
         }
 
         public async Task<UserResponseDTO> Register(string name, string email, string password,int gender ,string role)
@@ -62,7 +76,7 @@ namespace Identity.Infrastructure.Repository
                 UserName = name,
                 Email = email,
                 PasswordHash = password,
-                Gender = gender
+                Gender = Enum.Parse<Gender>(gender.ToString())
             };
 
            
@@ -92,11 +106,6 @@ namespace Identity.Infrastructure.Repository
 
         public async Task<RevokeRefreshTokenResponse> RevokeRefreshToken(RefreshTokenRequest request)
         {
-            // Hash the refresh token
-            //using var sha256 = SHA256.Create();
-            //var refreshTokenHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(request.RefreshToken));
-            //var hashedRefreshToken = Convert.ToBase64String(refreshTokenHash);
-
             // Find the user based on the refresh token
             var user = await userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == request.RefreshToken);
             if (user == null)

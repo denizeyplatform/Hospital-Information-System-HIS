@@ -14,7 +14,10 @@ namespace Identity.Application.Configuration
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
-         
+            services.AddScoped<IMFAService, MFAService>();
+            services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+
             return services;
         }
 

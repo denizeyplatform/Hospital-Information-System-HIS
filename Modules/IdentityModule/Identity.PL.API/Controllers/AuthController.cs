@@ -1,5 +1,6 @@
 ﻿using Identity.Application.Contracts.Interface;
 using Identity.Application.DTOs;
+using Identity.PL.API.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace Identity.PL.API.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
+        [ApiKey]
 
         public async Task<IActionResult> login(LoginRequestDTO userDto)
         {

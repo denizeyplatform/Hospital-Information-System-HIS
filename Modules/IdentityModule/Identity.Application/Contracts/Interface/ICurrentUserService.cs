@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Identity.Domain.Enums
+namespace Identity.Application.Contracts.Interface
 {
-    public enum Gender
+    public interface ICurrentUserService
     {
-        Male = 0,
-        Female = 1  
+        string UserId { get; }
     }
 }
