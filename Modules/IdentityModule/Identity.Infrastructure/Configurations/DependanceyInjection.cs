@@ -1,5 +1,6 @@
 ﻿using Identity.Application.Contracts.Interface;
 using Identity.Application.Contracts.Interface.Repository;
+using Identity.Domain.Interface;
 using Identity.Domain.Interface.Service;
 using Identity.Infrastructure.Models;
 using Identity.Infrastructure.Presistance.Data;
@@ -78,6 +79,9 @@ namespace Identity.Infrastructure.Configurations
                 .AddEntityFrameworkStores<AppIdentityDBContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AppIdentityDBContext).Assembly));
+
+
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             {
                 options.TokenLifespan = TimeSpan.FromMinutes(5);
@@ -86,13 +90,16 @@ namespace Identity.Infrastructure.Configurations
             services.Configure<EmailSettings>(
                 configuration.GetSection("EmailSettings"));
 
-          
 
+            services.AddScoped<IDomainEventDispatcher,DomainEventDispatcher>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IMFARepository, MFARepository>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IPasswordRepository, PasswordRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
 
             return services;
         }

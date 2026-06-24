@@ -20,9 +20,9 @@ namespace Identity.Infrastructure.Models
         public DateOnly? BOD { get; set; }
 
         //[NotMapped]
-        //public Email UserEmail { get; set; } = new Email("");
+       // public Email UserEmail { get; set; } = new Email("");
         
-        //[NotMapped]
+       // [NotMapped]
         //public HashedPassword HashedPassword { get; set; } = new HashedPassword("");
         public string? token { get; set; } = string.Empty;
         public string? RefreshToken { get; set; }

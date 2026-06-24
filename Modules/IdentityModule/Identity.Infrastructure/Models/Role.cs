@@ -10,5 +10,7 @@ namespace Identity.Infrastructure.Models
     public class Role : IdentityRole
     {
         // Additional properties can be added here as needed
+      
+        public string? Description { get; set; }
     }
 }

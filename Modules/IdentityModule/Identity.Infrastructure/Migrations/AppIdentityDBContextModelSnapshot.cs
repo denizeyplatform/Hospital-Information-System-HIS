@@ -22,6 +22,8 @@ namespace Identity.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+        
+
             modelBuilder.Entity("Identity.Infrastructure.Models.Role", b =>
                 {
                     b.Property<string>("Id")
@@ -30,6 +32,8 @@ namespace Identity.Infrastructure.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+   
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
@@ -48,6 +52,8 @@ namespace Identity.Infrastructure.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
+
+           
 
             modelBuilder.Entity("Identity.Infrastructure.Models.User", b =>
                 {
@@ -241,6 +247,8 @@ namespace Identity.Infrastructure.Migrations
 
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
+
+            
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {

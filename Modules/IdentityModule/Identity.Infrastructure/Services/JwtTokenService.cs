@@ -79,14 +79,16 @@ namespace Identity.Infrastructure.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user?.Id ?? string.Empty),
                 new Claim(ClaimTypes.Name, user?.UserName ?? string.Empty),
-                new Claim(ClaimTypes.Email, user?.Email ?? string.Empty)
+                new Claim(ClaimTypes.Email, user?.Email ?? string.Empty),
+                new Claim("security_stamp", user.SecurityStamp)
+                
             };
 
            
             var roles = await _userManager.GetRolesAsync(user);
            
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
+         
             return claims;
         }
 

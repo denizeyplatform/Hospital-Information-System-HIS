@@ -34,7 +34,13 @@ namespace Identity.Infrastructure.Repository
             if (user == null)
                 throw new Exception("User not found");
 
-                await userManager.CheckPasswordAsync(user, password);
+            //if (!user.EmailConfirmed)
+            //{
+            //    throw new UnauthorizedAccessException(
+            //        "Email is not confirmed");
+            //}
+
+            await userManager.CheckPasswordAsync(user, password);
               
 
                 if (user.TwoFactorEnabled)

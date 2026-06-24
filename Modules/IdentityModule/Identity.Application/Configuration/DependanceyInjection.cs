@@ -17,6 +17,8 @@ namespace Identity.Application.Configuration
             services.AddScoped<IMFAService, MFAService>();
             services.AddScoped<IPasswordService, PasswordService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }
