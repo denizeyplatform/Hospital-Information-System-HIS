@@ -1,7 +1,11 @@
 using Identity.Application.Configuration;
 using Identity.Infrastructure.Configurations;
+using Identity.Infrastructure.Presistance.Data;
+using Identity.Infrastructure.Presistance.Seeding;
+using Identity.Infrastructure.Services.Identity;
 using Identity.PL.API.Configurations;
 using Identity.PL.API.Middleware;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +22,28 @@ builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("De
 builder.Services.AddJWTCongigurations(builder.Configuration);
 builder.Services.AddAPI(builder.Configuration);
 
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider,PermissionPolicyProvider>();
+
+builder.Services.AddScoped<IAuthorizationHandler,PermissionAuthorizationHandler>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     
+}
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext =
+        scope.ServiceProvider
+            .GetRequiredService<AppIdentityDBContext>();
+
+    await PermissionSeeder.SeedAsync(dbContext);
 }
 
 app.UseSwagger();

@@ -1,5 +1,8 @@
 ﻿using Identity.Application.Contracts.Interface;
 using Identity.Application.DTOs;
+using Identity.Domain.Constants;
+using Identity.Domain.Entities;
+using Identity.Infrastructure.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -18,8 +21,11 @@ namespace Identity.PL.API.Controllers
         {
             _userService = userService;
         }
-
-        // [Authorize(Roles = "Admin")]
+ 
+        //[Authorize(Roles = "Admin")]
+        //[Authorize(Policy = "User.Create")]
+        [HasPermission(Permissions.Roles.Create)]
+     
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserDTO request)
         {

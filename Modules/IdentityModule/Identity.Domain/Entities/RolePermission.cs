@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Identity.Domain.Entities
 {
-    public class RolePermission : AggregateRoot<string>
+    public class RolePermission : AggregateRoot<Guid>
     {
 
-        public string PermissionId { get; set; }
+        public Guid PermissionId { get; set; }
         public Permission Permission { get; set; }
     }
 }

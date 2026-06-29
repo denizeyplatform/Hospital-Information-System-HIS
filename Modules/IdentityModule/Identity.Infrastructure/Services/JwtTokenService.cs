@@ -1,4 +1,5 @@
-﻿using Identity.Application.DTOs;
+﻿using Identity.Application.Contracts.Interface.Repository;
+using Identity.Application.DTOs;
 using Identity.Domain.Interface.Service;
 using Identity.Infrastructure.Configurations;
 using Identity.Infrastructure.Models;
@@ -12,27 +13,30 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Identity.Infrastructure.Services
 {
     internal class JwtTokenService : IJwtTokenService
     {
         public readonly UserManager<User> _userManager;
-
+        public readonly IPermissionRepository _permissionRepository;
         private readonly IConfiguration? _configuration;
         private readonly SymmetricSecurityKey _secretKey;
         private readonly string? _validIssuer;
         private readonly string? _validAudience;
         private readonly double _expires;
 
-        public JwtTokenService(IConfiguration configuration, UserManager<User> userManager)
+        public JwtTokenService(IConfiguration configuration, UserManager<User> userManager,IPermissionRepository permissionRepository)
         {
             _configuration = configuration;
             _userManager = userManager;
+            _permissionRepository = permissionRepository;
 
             var jwtSettings = _configuration.GetSection("JwtSettings").Get<JwtSettings>(); // mapping
 
@@ -84,11 +88,21 @@ namespace Identity.Infrastructure.Services
                 
             };
 
-           
             var roles = await _userManager.GetRolesAsync(user);
            
             claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-         
+
+           
+            var permissions = await _permissionRepository.GetPermissionsByUserAsync(user.Id);
+
+            claims.AddRange(permissions.Select(permission => new Claim("Permission", permission)));
+
+            //Use short-lived access tokens(for example, 10–15 minutes).
+            //Use refresh tokens to obtain new access tokens.
+            //When roles or permissions change:
+            //            Revoke the user's refresh tokens.
+            //            Update the user's security stamp (if you're using ASP.NET Identity).
+            //            Force re-authentication if required.
             return claims;
         }
 

@@ -1,5 +1,7 @@
 ﻿using Identity.Application.Contracts.Interface;
 using Identity.Application.DTOs;
+using Identity.Domain.Constants;
+using Identity.Infrastructure.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +27,7 @@ namespace Identity.PL.API.Controllers
         }
 
         [HttpPost("reset-password")]
+        [HasPermission(Permissions.Roles.Create)]
         public async Task<IActionResult> ResetPassword([FromQuery] ResetPasswordDTO dto)
         {
             var result = await _passwordService.ResetPasswordAsync(dto);

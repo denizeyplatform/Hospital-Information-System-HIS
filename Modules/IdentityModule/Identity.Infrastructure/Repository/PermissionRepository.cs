@@ -21,7 +21,7 @@ namespace Identity.Infrastructure.Repository
             _dbContext = dbContext;
             _roleManager = roleManager;
         }
-        public async Task AssignPermissionAsync(string roleName, string permissionId)
+        public async Task AssignPermissionAsync(string roleName, Guid permissionId)
         {
             var role = await _roleManager.FindByNameAsync(roleName);
 
@@ -44,7 +44,7 @@ namespace Identity.Infrastructure.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task RemovePermissionAsync(string roleName, string permissionId)
+        public async Task RemovePermissionAsync(string roleName, Guid permissionId)
         {
             var role = await _roleManager.FindByNameAsync(roleName);
 
@@ -72,6 +72,21 @@ namespace Identity.Infrastructure.Repository
             .AsNoTracking()
             .Where(x => x.RoleId == role.Id)
             .Select(x => x.Permission.Name)
+            .ToListAsync();
+        }
+
+        public async Task<List<string>> GetPermissionsByUserAsync(string userId)
+        {
+            return await (
+                from userRole in _dbContext.UserRoles
+                join rolePermission in _dbContext.RolePermissions
+                    on userRole.RoleId equals rolePermission.RoleId
+                join permission in _dbContext.Permissions
+                    on rolePermission.PermissionId equals permission.Id
+                where userRole.UserId == userId
+                select permission.Name
+            )
+            .Distinct()
             .ToListAsync();
         }
     }

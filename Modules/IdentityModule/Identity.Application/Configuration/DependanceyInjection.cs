@@ -19,6 +19,7 @@ namespace Identity.Application.Configuration
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPermissionService,PermissionService>();
 
             return services;
         }

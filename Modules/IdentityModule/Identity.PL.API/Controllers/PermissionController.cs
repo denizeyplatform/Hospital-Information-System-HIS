@@ -1,4 +1,5 @@
-﻿using Identity.Application.DTOs;
+﻿using Identity.Application.Contracts.Interface;
+using Identity.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,25 +10,33 @@ namespace Identity.PL.API.Controllers
     [ApiController]
     public class PermissionController : ControllerBase
     {
-        [Authorize]
+        private readonly IPermissionService _permissionService;
+        public PermissionController(IPermissionService service)
+        {
+            _permissionService = service;
+        }
+        // [Authorize]
         [HttpPost("assign/permission")]
         public async Task<IActionResult> AssignPermission([FromBody] AssignPermissionDTO dto)
         {
-            return Ok();
+            await _permissionService.AssignPermissionAsync(dto);
+            return Ok("Permission assigned to Role successfully");
         }
 
-        [Authorize]
+       // [Authorize]
         [HttpDelete("remove/permission")]
         public async Task<IActionResult> RemovePermission([FromBody] AssignPermissionDTO request) 
         {
-            return Ok();
+            await _permissionService.RemovePermissionAsync(request);
+            return Ok("Permission Removed from Role");
         }
 
-        [Authorize]
+       // [Authorize]
         [HttpGet("get/permissions")]
         public async Task<IActionResult> GetPermission([FromQuery] string rolename) 
-        { 
-            return Ok(); 
+        {
+            var result = await _permissionService.GetPermissionsAsync(rolename);
+            return Ok(result); 
         }
     }
 }

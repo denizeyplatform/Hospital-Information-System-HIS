@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace Identity.Domain.Constants
 {
     public static class Permissions
     {
+       
         public static class Users
         {
             public const string Create = "User.Create";
@@ -29,6 +31,13 @@ namespace Identity.Domain.Constants
             public const string Create = "Course.Create";
             public const string Update = "Course.Update";
             public const string Delete = "Course.Delete";
+        }
+
+        public static class Doctors
+        {
+            public const string Create = "Doctors.Create";
+            public const string Update = "Doctors.Update";
+            public const string Delete = "Doctors.Delete";
         }
     }
 }
